@@ -1,4 +1,5 @@
 #include<iostream>
+#include<map>
 using namespace std;
 class node{
     public:
@@ -15,7 +16,7 @@ void insertionAtHead(node* &head,int data){
     head=temp;
 
 }
-bool detectLoop(node* head){
+node* detectLoop(node* head){
     node* slow=head;
     node* fast=head;
     while(slow!=NULL && fast!=NULL){
@@ -25,10 +26,45 @@ bool detectLoop(node* head){
         }
         slow=slow->next;
         if(slow==fast){
-            return true;
+            return slow;
         }
     }
+    return NULL;
+}
+bool mapMethod(node* head){
+    map<node*,bool> visited;
+    node* temp=head;
+    while(head!=NULL){
+        if(visited[temp]==true){
+            return true;
+        }
+        visited[temp]=true;
+    }
     return false;
+
+}
+node* startingNodeLoop(node* head){
+    if(head==NULL){
+        return NULL;
+    }
+    node* intersection=detectLoop(head);
+    node* slow=head;
+    while(slow!=intersection){
+        slow=slow->next;
+        intersection=intersection->next;
+    }
+    return slow;
+}
+void removeLoop(node* head){
+     if(head==NULL){
+         return ;
+     }
+     node* startingLoop=startingNodeLoop(head);
+     node* temp=startingLoop;
+     while(temp->next!=startingLoop){
+         temp=temp->next;
+     }
+     temp->next=NULL;
 }
 void print(node* &head){
     node* temp=head;
@@ -46,7 +82,15 @@ int main(){
     insertionAtHead(head,50);
     insertionAtHead(head,60);
     tail->next=head->next;
-    cout<<detectLoop(head);
-    // print(head);
+    if(detectLoop(head)!=NULL){
+        cout<<"true"<<endl;
+    }
+    else{
+        cout<<"false"<<endl;
+    }
+    cout<<mapMethod(head)<<endl;
+    cout<<startingNodeLoop(head)->data<<endl;
+    removeLoop(head);
+    print(head);
     return 0;
 }
