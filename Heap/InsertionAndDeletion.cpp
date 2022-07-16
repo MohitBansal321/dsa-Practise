@@ -25,7 +25,7 @@ class heap{
     }
     void printing(){
         for(int i=1;i<=size;i++){
-            cout<<arr[i]<<" "<<endl;
+            cout<<arr[i]<<" ";
         }
     }
     void deleteFromHeap(){
@@ -40,14 +40,18 @@ class heap{
         while(index<size){
             int left=2*index;
             int right=2*index+1;
-            if(arr[left]>arr[index]){
-                    swap(arr[index],arr[left]);
-                    index=left;
-                }
-            else if(arr[right]>arr[index]){
-                    swap(arr[index],arr[right]);
-                    index=right;
-                }
+            int temp=index;
+            if(arr[left]>arr[temp]){
+//                     swap(arr[index],arr[left]);
+                    temp=left;
+            }
+            if(arr[right]>arr[temp]){
+//                     swap(arr[index],arr[right]);
+                    temp=right;
+            }
+            else if(arr[temp]>arr[index]){
+                swap(arr[temp],arr[index]);
+            }
             else{
                 return ;
             }
@@ -56,11 +60,11 @@ class heap{
 };
 int main(){
     heap h1;
-    h1.insertion(30);
-    h1.insertion(50);
-    h1.insertion(20);
+    h1.insertion(66);
+    h1.insertion(57);
     h1.insertion(60);
-    h1.insertion(10);
+    h1.insertion(55);
+    h1.insertion(56);
     h1.deleteFromHeap();
     h1.printing();
     return 0;
