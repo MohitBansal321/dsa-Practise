@@ -23,6 +23,21 @@ bool isCycleBFS(int src,unordered_map<int,bool> visited,unordered_map<int,list<i
     }
     return false;
 }
+bool isCycleDFS(int node,int parent,unordered_map<int,bool> visited,unordered_map<int,list<int>> adj){
+        visited[node]=1;
+    for(auto num:adj[node]){
+        if(!visited[num]){
+            bool cycleDetected=isCycleDFS(num,node,visited,adj);
+            if(cycleDetected){
+                return true;
+            }
+            else if(num!=parent){
+                return  true;
+            }
+        }
+    }
+    return false;
+}
 string cycleDetection (vector<vector<int>>& edges, int n, int m)
 {
     // Write your code here.
@@ -36,7 +51,7 @@ string cycleDetection (vector<vector<int>>& edges, int n, int m)
     unordered_map<int,bool> visited;
     for(int i=0;i<n;i++){
         if(!visited[i]){
-            bool ans=isCycleBFS(i,visited,adj);
+            bool ans=isCycleDFS(i,-1,visited,adj);
             if(ans==true){
                 return "Yes";
             }
