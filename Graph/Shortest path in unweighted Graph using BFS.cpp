@@ -1,7 +1,7 @@
 #include<unordered_map>
 #include<list>
 #include<queue>
-vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , int t){
+vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int source , int destitaion){
     // making of adjancey list
     unordered_map<int, list <int> > adj;
     for(int i=0;i<edges.size();i++){
@@ -15,9 +15,9 @@ vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , i
     unordered_map<int,bool> visited;
     unordered_map<int,int> parent;
     queue<int> q;
-    q.push(s);
-    parent[s]=-1;
-    visited[s]=true;
+    q.push(source);
+    parent[source]=-1;
+    visited[source]=true;
     while(!q.empty()){
         int front=q.front();
         q.pop();
@@ -33,9 +33,10 @@ vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , i
         }
     }
     vector<int> ans;
-    int currNode=t;
-    ans.push_back(t);
-    while(currNode!=s){
+    // store the last elment so we can get the source node
+    int currNode=destitaion;
+    ans.push_back(destitaion);
+    while(currNode!=source){
         currNode=parent[currNode];
         ans.push_back(currNode);
     }
