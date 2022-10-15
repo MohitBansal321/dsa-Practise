@@ -20,3 +20,33 @@ Node* flattenLinkedList(Node* head)
         return head;
     return merge(head , flattenLinkedList(head->next));
 }
+
+// --------------------------Striver Code----------------------------------
+Node* mergeList(Node* x,Node* y){
+    Node* ans=new Node(0);
+    Node* temp=ans;
+    while(x!=NULL && y!=NULL){
+        if(x->data<y->data){
+            temp->bottom=x;
+            temp=temp->bottom;
+            x=x->bottom;
+        }
+        else{
+            temp->bottom=y;
+            temp=temp->bottom;
+            y=y->bottom;
+        }
+    }
+    if(x) {temp->bottom=x;}
+    else {temp->bottom=y;}
+    return ans->bottom;
+}
+Node *flatten(Node *root)
+{
+    if(root!=NULL || root->next!=NULL){
+        return root;
+    }
+    root->next=flatten(root->next);
+    root=mergeList(root,root->next);
+    return root;
+}
