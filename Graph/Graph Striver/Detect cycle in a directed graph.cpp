@@ -84,17 +84,17 @@ class Solution {
 	            q.push(i);
 	        }
 	    }
-	    vector<int> topo;
+	    int cnt=0;
 	    while(!q.empty()){
 	        int front=q.front();
 	        q.pop();
-	        topo.push_back(front);
+	        cnt++;
 	        for(auto i:adj[front]){
 	            indeg[i]--;
 	            if(indeg[i]==0) q.push(i);
 	        }
 	    }
-	    if(topo.size()!=V){
+	    if(cnt!=V){
 	        return true;
 	    }
 	    return false;
