@@ -36,3 +36,41 @@ private:
        return safeNode;
     }
 };
+
+
+// ----------------------------------------------Using BFS TOPOLOGICAL SORT ------------------------------------------------------
+
+
+class Solution {
+  public:
+    vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+        vector<int> adjRev[V];
+        int indeg[V]={0};
+        // Reverse the adjcance list
+        for(int i=0;i<V;i++){
+            // given i->it
+            // we change it it->i
+            for(auto it:adj[i]){
+                adjRev[it].push_back(i);
+                indeg[i]++;
+            }
+        }
+        queue<int> qt;
+        vector<int> ans;
+        // all terminal node have 0 indeg;
+        for(int i=0;i<V;i++){
+            if(indeg[i]==0) qt.push(i);
+        }
+        while(!qt.empty()){
+            int front=qt.front();
+            qt.pop();
+            ans.push_back(front);
+            for(auto i:adjRev[front]){
+                indeg[i]--;
+                if(indeg[i]==0) qt.push(i);
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
