@@ -2,6 +2,8 @@
 #include<vector>
 using namespace std;
 class DisjointSet{
+//     rank is used to perform union by rank
+//     size is used to perfomr union by size
     vector<int> rank,parent,size;
     public:
     DisjointSet(int n){
@@ -14,10 +16,13 @@ class DisjointSet{
         }
     }
     int findUParent(int node){
+//         if the parent is found
         if(node==parent[node]) return node;
+        
+//        we assgin parent to all vertex in the path 
         return parent[node]=findUParent(parent[node]);
     }
-    
+//     this rank will help to reduce size of tree
     void unionByRank(int u,int v){
         int ulp_u=findUParent(u); 
         int ulp_v=findUParent(v);
