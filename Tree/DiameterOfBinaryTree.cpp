@@ -1,25 +1,19 @@
 // time comp O(n)
 class Solution {
-  public:
-    // Function to return the diameter of a Binary Tree.
-    pair<int,int> dia(Node* root){
-        if(root==NULL){
-            pair<int,int> p=make_pair(0,0);
-            return p;
-        }
-        pair<int,int>  left=dia(root->left);
-        pair<int,int>  right=dia(root->right);
-        int op1=left.first;
-        int op2=right.first;
-        int op3=left.second+right.second + 1;
-        pair<int,int> ans;
-        ans.first=max(op1,max(op2,op3));
-        ans.second=max(left.second,right.second) + 1;
+public:
+    int isHeight(TreeNode* root,int &dia){
+        if(root==NULL) return 0;
+        int left=isHeight(root->left, dia);
+        int right=isHeight(root->right, dia);
+        int ans=max(left,right)+1;
+        dia=max(dia,left+right+1);
         return ans;
     }
-    int diameter(Node* root) {
-        // Your code here
-        return dia(root).first;
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root==NULL) return 0;
+        int dia=0;
+        isHeight(root,dia);
+        return dia-1;
     }
 };
 
