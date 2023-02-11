@@ -20,3 +20,32 @@ class Solution
        return ans;
     }
 };
+
+// -------------------------- Iterative using level order traversal ----------------------------------------------------------
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> ans;
+        if(root==NULL) return ans;
+        map<int,int> mp;
+        queue<pair<TreeNode*,int>> q;
+        q.push({root,0});
+        while(!q.empty()){
+            pair<TreeNode*,int> temp=q.front();
+            q.pop();
+            TreeNode* front=temp.first;
+            int lvl=temp.second;
+            if(mp.find(lvl)==mp.end(){
+                mp[lvl]=front->val;
+            }
+            if(front->left) q.push({front->left,lvl+1});
+            if(front->right) q.push({front->right,lvl+1});
+            
+        }
+        for(auto it:mp){
+            ans.push_back(it.second);
+        }
+        return ans;
+    }
+};
