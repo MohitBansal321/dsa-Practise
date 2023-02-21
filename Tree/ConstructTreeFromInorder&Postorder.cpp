@@ -25,3 +25,30 @@ Node *buildTree(int in[], int post[], int n) {
         Node *ans=solve(in,post,postOrderIndex,0,n-1,n,nodeIndex);
         return ans;
 }
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>&postorder,int postStart,int postEnd,
+                        vector<int>&inorder,int inStart,int inEnd,map<int,int>&mp){
+        if(postStart>postEnd || inStart>inEnd) return NULL;
+        TreeNode* root=new TreeNode(postorder[postEnd]);
+        int inRoot=mp[root->val];
+        int numLeft=inRoot-inStart;
+        root->left=buildTree(postorder,postStart,postStart+numLeft-1,
+                             inorder, inStart,inRoot-1,mp);
+        root->right=buildTree(postorder,postStart+numLeft,postEnd-1,
+                              inorder, inRoot+1,inEnd,mp);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        map<int,int> mp;
+        for(int i=0;i<inorder.size();i++){
+            mp[inorder[i]]=i;
+        }
+        TreeNode* root=buildTree(postorder,0,postorder.size()-1,
+                                inorder,0,inorder.size()-1,mp);
+        return root;
+    }
+};
