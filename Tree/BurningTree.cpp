@@ -1,71 +1,61 @@
 class Solution {
-  public:
-    Node* createParentMapping(Node* root,int target,map<Node*,Node*>&nodeToParent){
-        Node* res=NULL;
-        queue<Node*> q;
-        q.push(root);
-        nodeToParent[root]=NULL;
+public:
+    int findMaxDist(TreeNode* target,unordered_map<TreeNode*,TreeNode*> mpp){
+        unordered_map<TreeNode*,bool>visited;
+        queue<TreeNode*> q;
+        q.push(target);
+        visited[target]=true;
+        int time=0;
         while(!q.empty()){
-            Node* front=q.front();
-            q.pop();
-            if(front->data==target){
-                res=front;
+            
+            int size=q.size();
+            int fl=0;
+            for(int i=0;i<size;i++){
+                TreeNode* front=q.front();
+                q.pop();
+                if(front->left && !visited[front->left]){
+                    fl=1;
+                    visited[front->left]=true;
+                    q.push(front->left);
+                }
+                if(front->right && !visited[front->right]){
+                    fl=1;
+                    visited[front->right]=true;
+                    q.push(front->right);
+                }
+                if(mpp[front] && !visited[mpp[front]]){
+                    fl=1;
+                    visited[mpp[front]]=true;
+                    q.push(mpp[front]);
+                }
             }
+            if(fl) time++;
+        }
+        return time;
+    }
+    TreeNode* markParents(TreeNode* root,unordered_map<TreeNode*,TreeNode*>&parent_track,int start){
+        queue<TreeNode*>q;
+        q.push(root);
+        TreeNode* res;
+        while(!q.empty()){
+            TreeNode* front=q.front();
+            if(front->val==start) res=front;
+            q.pop();
             if(front->left){
-                nodeToParent[front->left]=front;
+                parent_track[front->left]=front;
                 q.push(front->left);
             }
             if(front->right){
-                nodeToParent[front->right]=front;
+                parent_track[front->right]=front;
                 q.push(front->right);
             }
         }
         return res;
     }
-    int burnTree(Node* root,map<Node*,Node*> &nodeToParent){
-        map<Node*,bool> visited;
-        queue<Node*> q;
-        q.push(root);
-        visited[root]=true;
-        int ans=0;
-        while(!q.empty()){
-            bool flag=0;
-            int size=q.size();
-            for(int i=0;i<size;i++){
-                Node* front=q.front();
-                q.pop();
-                if(front->left && !visited[front->left]){
-                    flag=1;
-                    q.push(front->left);
-                    visited[front->left]=1;
-                }
-                if(front->right && !visited[front->right]){
-                    flag=1;
-                    q.push(front->right);
-                    visited[front->right]=1;
-                        
-                }
-                if(nodeToParent[front] && !visited[nodeToParent[front]]){
-                    flag=1;
-                    q.push(nodeToParent[front]);
-                    visited[nodeToParent[front]]=1;
-                }
-                
-            }
-            if(flag==1){
-                ans++;
-                }
-        }
-        return ans;
-    }
-    
-    int minTime(Node* root, int target) 
-    {
-        // Your code goes here
-        // int ans=0;
-        map<Node*,Node*> nodeToParent;
-        Node* targetNode=createParentMapping(root,target,nodeToParent);
-        int ans=burnTree(targetNode,nodeToParent);
-        return ans;
+    int amountOfTime(TreeNode* root, int start) {
+        unordered_map<TreeNode*,TreeNode*> parent_track;
+        TreeNode* target=markParents(root,parent_track,start);
+        int maxi=findMaxDist(target,parent_track);
+        return maxi;
     }
 };
