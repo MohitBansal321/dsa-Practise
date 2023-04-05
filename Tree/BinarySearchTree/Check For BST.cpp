@@ -1,3 +1,26 @@
+// INORDER TRAVERSAL AND VECTOR 
+class Solution {
+public:
+    vector<int> s;
+    void solve(TreeNode* root){
+        if(root==NULL) return;
+        solve(root->left);
+        s.push_back(root->val);
+        solve(root->right);
+    }
+    bool isValidBST(TreeNode* root) {
+        if(root==NULL) return true;
+        solve(root);
+        for(int i=1;i<s.size();i++){
+            if(s[i-1]>=s[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+// USING MIN AND MAX
 class Solution
 {
     public:
