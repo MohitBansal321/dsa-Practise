@@ -1,3 +1,7 @@
+// Algo 
+// Take Index Element as Root Element
+// Find position of Root Element in Inorder 
+// Send left element postions and right element position 
 class Solution{
     public:
     int findPostion(int in[],int element,int n){
