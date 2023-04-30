@@ -1,3 +1,8 @@
+//  Algo
+//  Select Root Element from postorder
+//  Find position of Root element in inorder
+//  do right call and left call (remember in preorder we do left and right)
+//  because we are doing from rightmost so when we go back then the element which is present in postorder lie in inorder rightpart of root
  void createMapping(int in[],map<int,int> &nodeIndex,int n){
         for(int i=0;i<n;i++){
             nodeIndex[in[i]]=i;

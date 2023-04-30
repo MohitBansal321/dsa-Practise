@@ -4,8 +4,8 @@
 // Send left element postions and right element position 
 class Solution{
     public:
-    int findPostion(int in[],int element,int n){
-        for(int i=0;i<n;i++){
+    int findPostion(int in[],int element,int start,int end){
+        for(int i=start;i<=end;i++){
             if(in[i]==element){
                 return i;
             }
@@ -18,7 +18,7 @@ class Solution{
         }
         int element=pre[index++];
         Node* root=new Node(element);
-        int position=findPostion(in,element,n);
+        int position=findPostion(in,element,inorderStart,inorderEnd);
         root->left=solve(in,pre,index,inorderStart,position-1,n);
         root->right=solve(in,pre,index,position+1,inorderEnd,n);
         return root;
